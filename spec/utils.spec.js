@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { formatDate, makeRefObj, formatComments } = require("../db/utils/utils");
 
-describe.only("formatDate", () => {
+describe("formatDate", () => {
   it("returns a new array", () => {
     const testList = [
       {
@@ -108,9 +108,75 @@ describe.only("formatDate", () => {
 });
 
 describe("makeRefObj", () => {
-  it("", () => {});
+  it("does not mutate the input array", () => {
+    const testList = [
+      {
+        article_id: 1,
+        title: "A",
+        body: "hey",
+        votes: 0,
+        topic: "topic1",
+        created_at: 1561389315280
+      }
+    ];
+    makeRefObj(testList);
+    expect(testList).to.eql([
+      {
+        article_id: 1,
+        title: "A",
+        body: "hey",
+        votes: 0,
+        topic: "topic1",
+        created_at: 1561389315280
+      }
+    ]);
+  });
+  it("returns an empty object, when provided an empty array", () => {
+    expect(makeRefObj([])).to.eql({});
+  });
+  it("returns a reference object, when provide an array with one value", () => {
+    const testList = [
+      {
+        article_id: 1,
+        title: "A",
+        body: "hey",
+        votes: 0,
+        topic: "topic1",
+        created_at: new Date()
+      },
+      {
+        article_id: 2,
+        title: "B",
+        body: "bye",
+        votes: 0,
+        topic: "topic2",
+        created_at: new Date()
+      }
+    ];
+    const result = {
+      A: 1,
+      B: 2
+    };
+    expect(makeRefObj(testList)).to.eql(result);
+  });
+  it("returns a reference object, when provide an array with multiple values", () => {
+    const testList = [
+      {
+        article_id: 1,
+        title: "A",
+        body: "hey",
+        votes: 0,
+        topic: "topic1",
+        created_at: new Date()
+      }
+    ];
+    const result = {
+      A: 1
+    };
+    expect(makeRefObj(testList)).to.eql(result);
+  });
 });
 
-describe("formatComments", () => {
+describe.only("formatComments", () => {
   it("", () => {});
 });
