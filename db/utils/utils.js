@@ -1,6 +1,6 @@
 exports.formatDate = list => {
-  return list.reduce((arr, element) => {
-    arr.push({ ...element, created_at: new Date(element["created_at"]) });
+  return list.reduce((arr, article) => {
+    arr.push({ ...article, created_at: new Date(article["created_at"]) });
     return arr;
   }, []);
 };
@@ -12,4 +12,18 @@ exports.makeRefObj = list => {
   }, {});
 };
 
-exports.formatComments = (comments, articleRef) => {};
+exports.formatComments = (comments, articleRef) => {
+  return comments.reduce((arr, comment) => {
+    const amendedComment = {
+      ...comment,
+      created_at: new Date(comment["created_at"]),
+      author: comment["created_by"],
+      article_id: comment["belongs_to"]
+    };
+    amendedComment.article_id = articleRef[amendedComment["article_id"]];
+    delete amendedComment.created_by;
+    delete amendedComment.belongs_to;
+    arr.push(amendedComment);
+    return arr;
+  }, []);
+};

@@ -177,6 +177,109 @@ describe("makeRefObj", () => {
   });
 });
 
-describe.only("formatComments", () => {
-  it("", () => {});
+describe("formatComments", () => {
+  it("returns a new array", () => {
+    const testRefObj = {
+      A: 1,
+      B: 2
+    };
+    const testComments = [
+      {
+        body: "hey",
+        belongs_to: "A",
+        created_by: "hvmurphy",
+        votes: 16,
+        created_at: Date.now()
+      }
+    ];
+    const returnValue = formatComments(testComments, testRefObj);
+    expect(testComments).to.not.equal(returnValue);
+  });
+  it("does not mutate the input array", () => {
+    const testRefObj = {
+      A: 1,
+      B: 2
+    };
+    const testComments = [
+      {
+        body: "hey",
+        belongs_to: "A",
+        created_by: "hvmurphy",
+        votes: 16,
+        created_at: Date.now()
+      }
+    ];
+    formatComments(testComments, testRefObj);
+    expect(testComments).to.eql([
+      {
+        body: "hey",
+        belongs_to: "A",
+        created_by: "hvmurphy",
+        votes: 16,
+        created_at: Date.now()
+      }
+    ]);
+  });
+  it("formats comments when passed an array of a single comment", () => {
+    const testRefObj = {
+      A: 1,
+      B: 2
+    };
+    const testComments = [
+      {
+        body: "hey",
+        belongs_to: "A",
+        created_by: "hvmurphy",
+        votes: 16,
+        created_at: Date.now()
+      },
+      {
+        body: "bye",
+        belongs_to: "B",
+        created_by: "hvmurphy",
+        votes: 1,
+        created_at: Date.now()
+      }
+    ];
+    expect(formatComments(testComments, testRefObj)).to.eql([
+      {
+        body: "hey",
+        article_id: 1,
+        author: "hvmurphy",
+        votes: 16,
+        created_at: new Date()
+      },
+      {
+        body: "bye",
+        article_id: 2,
+        author: "hvmurphy",
+        votes: 1,
+        created_at: new Date()
+      }
+    ]);
+  });
+  it("formats comments when passed an array of multiple comments", () => {
+    const testRefObj = {
+      A: 1,
+      B: 2
+    };
+    const testComments = [
+      {
+        body: "hey",
+        belongs_to: "A",
+        created_by: "hvmurphy",
+        votes: 16,
+        created_at: Date.now()
+      }
+    ];
+    expect(formatComments(testComments, testRefObj)).to.eql([
+      {
+        body: "hey",
+        article_id: 1,
+        author: "hvmurphy",
+        votes: 16,
+        created_at: new Date()
+      }
+    ]);
+  });
 });
