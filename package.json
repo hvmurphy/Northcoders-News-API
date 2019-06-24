@@ -27,5 +27,8 @@
     "knex": "^0.17.6",
     "pg": "^7.11.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
+  }
 }
