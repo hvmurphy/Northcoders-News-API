@@ -6,11 +6,14 @@ const request = require("supertest")(app);
 const connection = require("../db/connection");
 
 describe("/api", () => {
-  beforeEach(() => {
-    return connection.seed.run();
-  });
   after(() => {
     connection.destroy();
   });
-  it("", () => {});
+  describe("/topics", () => {
+    describe("GET", () => {
+      it("GET repsonds with a status of 200", () => {
+        return request.get("/api/topics").expect(200);
+      });
+    });
+  });
 });
