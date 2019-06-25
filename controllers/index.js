@@ -1,11 +1,19 @@
-const { fetchTopics } = require("../models");
+const { fetchTopics, fetchUser } = require("../models");
 
 function getTopics(req, res, next) {
   fetchTopics()
     .then(topics => {
-      res.status(200).send({ topics: topics });
+      res.status(200).send({ topics });
     })
     .catch(next);
 }
 
-module.exports = { getTopics };
+function getUser(req, res, next) {
+  fetchUser(req.params)
+    .then(user => {
+      res.status(200).send({ user });
+    })
+    .catch(next);
+}
+
+module.exports = { getTopics, getUser };
