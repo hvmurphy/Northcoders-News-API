@@ -1,5 +1,11 @@
+const { fetchTopics } = require("../models");
+
 function getTopics(req, res, next) {
-  res.status(200).send();
+  fetchTopics()
+    .then(topics => {
+      res.status(200).send({ topics: topics });
+    })
+    .catch(next);
 }
 
 module.exports = { getTopics };
