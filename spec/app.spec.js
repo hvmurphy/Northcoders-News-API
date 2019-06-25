@@ -43,17 +43,9 @@ describe("/api", () => {
             expect(user.length).to.equal(1);
           });
       });
-      it("responds with a status 400 with an invalid username", () => {
+      it("responds with a status 404 with a username that does not exist", () => {
         return request
           .get("/api/users/9")
-          .expect(400)
-          .then(({ body: { msg } }) => {
-            expect(msg).to.eql("Bad Request");
-          });
-      });
-      it("responds with a status 404 with username that does not exist", () => {
-        return request
-          .get("/api/users/holly")
           .expect(404)
           .then(({ body: { msg } }) => {
             expect(msg).to.eql("User Not Found");

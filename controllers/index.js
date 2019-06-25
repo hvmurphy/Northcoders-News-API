@@ -11,6 +11,12 @@ function getTopics(req, res, next) {
 function getUser(req, res, next) {
   fetchUser(req.params)
     .then(user => {
+      if (user.length === 0) {
+        return Promise.reject({
+          status: 404,
+          msg: "User Not Found"
+        });
+      }
       res.status(200).send({ user });
     })
     .catch(next);
