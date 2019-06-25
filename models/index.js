@@ -10,4 +10,11 @@ function fetchUser(username) {
     .where(username);
 }
 
-module.exports = { fetchTopics, fetchUser };
+function fetchArticle(article_id) {
+  return connection
+    .select("*")
+    .from("articles")
+    .where(article_id);
+}
+
+module.exports = { fetchTopics, fetchUser, fetchArticle };

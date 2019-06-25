@@ -1,4 +1,4 @@
-const { fetchTopics, fetchUser } = require("../models");
+const { fetchTopics, fetchUser, fetchArticle } = require("../models");
 
 function getTopics(req, res, next) {
   fetchTopics()
@@ -21,5 +21,18 @@ function getUser(req, res, next) {
     })
     .catch(next);
 }
+function getArticle(req, res, next) {
+  fetchArticle(req.params)
+    .then(article => {
+      // if (user.length === 0) {
+      //   return Promise.reject({
+      //     status: 404,
+      //     msg: "User Not Found"
+      //   });
+      // }
+      res.status(200).send({ article });
+    })
+    .catch(next);
+}
 
-module.exports = { getTopics, getUser };
+module.exports = { getTopics, getUser, getArticle };

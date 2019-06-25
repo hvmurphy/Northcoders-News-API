@@ -53,4 +53,17 @@ describe("/api", () => {
       });
     });
   });
+  describe.only("/articles", () => {
+    describe("GET", () => {
+      it("responds with a status of 200 & returns article at parametric endpoint", () => {
+        return request
+          .get("/api/articles/1")
+          .expect(200)
+          .then(({ body: { article } }) => {
+            expect(article[0]["article_id"]).to.eql(1);
+            expect(article.length).to.equal(1);
+          });
+      });
+    });
+  });
 });
