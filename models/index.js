@@ -10,11 +10,25 @@ function fetchUser(username) {
     .where(username);
 }
 
-function fetchArticle(article_id) {
+function fetchArticle({ article_id }) {
   return connection
-    .select("*")
+    .select("articles.*")
+    .count({ comment_count: "comments.comment_id" })
     .from("articles")
-    .where(article_id);
+    .leftJoin("comments", "articles.article_id", "comments.article_id")
+    .groupBy("articles.article_id")
+    .modify(query => {
+      if (article_id) query.where({ "articles.article_id": article_id });
+    });
 }
 
-module.exports = { fetchTopics, fetchUser, fetchArticle };
+function updateArticleVotes(article_id, updatedVotes) {
+  const voteInc = updatedVotes["inc_votes"];
+  return connection("articles")
+    .where(article_id)
+    .update("votes", voteInc)
+    .returning("*")
+    .then(updatedArticle => updatedArticle[0]);
+}
+
+module.exports = { fetchTopics, fetchUser, fetchArticle, updateArticleVotes };

@@ -53,7 +53,7 @@ describe("/api", () => {
       });
     });
   });
-  describe.only("/articles", () => {
+  describe("/articles", () => {
     describe("GET", () => {
       it("responds with a status of 200 & returns article at parametric endpoint", () => {
         return request
@@ -63,6 +63,33 @@ describe("/api", () => {
             expect(article[0]["article_id"]).to.eql(1);
             expect(article.length).to.equal(1);
           });
+      });
+      it("responds with a status of 200 & returns count of article comments as a key", () => {
+        return request
+          .get("/api/articles/1")
+          .expect(200)
+          .then(({ body: { article } }) => {
+            expect(article[0]["comment_count"]).to.eql("13");
+          });
+      });
+      it("responds with a status 404 with an article_id that does not exist", () => {
+        return request
+          .get("/api/articles/9999")
+          .expect(404)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("User Not Found");
+          });
+      });
+    });
+    describe("PATCH", () => {
+      it("responds with a status of 200 & updates votes on specified article", () => {
+        return request
+          .patch("/api/articles/1")
+          .send({ inc_votes: 4 })
+          .expect(200);
+        // .then(({ body: { changedArticle } }) => {
+        //   expect(changedArticle["votes"]).to.eql(104);
+        // });
       });
     });
   });
