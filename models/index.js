@@ -22,12 +22,17 @@ function fetchArticle({ article_id }) {
     });
 }
 
-function updateArticleVotes(article_id, updatedVotes) {
-  const voteInc = updatedVotes["inc_votes"];
+function updateArticleVotes(article_id, votesToAdd) {
   return connection("articles")
     .where(article_id)
-    .update("votes", voteInc)
     .returning("*")
+    .then(article => {
+      const voteTotal = votesToAdd["inc_votes"] + article[0].votes;
+      return connection("articles")
+        .where(article_id)
+        .update({ votes: voteTotal })
+        .returning("*");
+    })
     .then(updatedArticle => updatedArticle[0]);
 }
 

@@ -86,10 +86,10 @@ describe("/api", () => {
         return request
           .patch("/api/articles/1")
           .send({ inc_votes: 4 })
-          .expect(200);
-        // .then(({ body: { changedArticle } }) => {
-        //   expect(changedArticle["votes"]).to.eql(104);
-        // });
+          .expect(200)
+          .then(({ body: { changedArticle } }) => {
+            expect(changedArticle["votes"]).to.eql(104);
+          });
       });
     });
   });

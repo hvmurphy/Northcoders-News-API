@@ -43,7 +43,6 @@ function getArticle(req, res, next) {
 function patchArticle(req, res, next) {
   updateArticleVotes(req.params, req.body)
     .then(changedArticle => {
-      console.log(changedArticle);
       res.status(200).send({ changedArticle });
     })
     .catch(next);
