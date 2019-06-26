@@ -29,6 +29,10 @@ exports.handles404Errors = (req, res, next) => {
   res.status(404).send({ msg: "Page Not Found" });
 };
 
+exports.handles405Errors = (req, res, next) => {
+  res.status(405).send({ msg: "Method not allowed" });
+};
+
 exports.handles500Errors = (err, req, rex, next) => {
   res.status(500).send({ msg: "Internal Server Error" });
 };

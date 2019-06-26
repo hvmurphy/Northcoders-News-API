@@ -57,10 +57,21 @@ function addComment({ article_id }, comment) {
     .then(comments => comments[0]);
 }
 
+function fetchComments(article_id) {
+  return connection
+    .select("*")
+    .from("users")
+    .where(article_id);
+  // .where(article_id);
+  // .join("shops", "treasures.shop_id", "=", "shops.shop_id")
+  // .orderBy(sort_by || "cost_at_auction", order || "cost_at_auction", "asc");
+}
+
 module.exports = {
   fetchTopics,
   fetchUser,
   fetchArticle,
   updateArticleVotes,
-  addComment
+  addComment,
+  fetchComments
 };

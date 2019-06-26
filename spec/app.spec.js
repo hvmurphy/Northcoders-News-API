@@ -21,6 +21,17 @@ describe("/api", () => {
       });
   });
   describe("/topics", () => {
+    it("returns 405 for invalid methods", () => {
+      const invalidMethods = ["patch", "put", "post", "delete"];
+      const methodPromises = invalidMethods.map(method => {
+        return request[method]("/api/topics")
+          .expect(405)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Method not allowed");
+          });
+      });
+      return Promise.all(methodPromises);
+    });
     describe("GET", () => {
       it("responds with a status of 200 and includes relevant keys ", () => {
         return request
@@ -33,6 +44,17 @@ describe("/api", () => {
     });
   });
   describe("/users", () => {
+    it("returns 405 for invalid methods", () => {
+      const invalidMethods = ["patch", "put", "post", "delete"];
+      const methodPromises = invalidMethods.map(method => {
+        return request[method]("/api/users/lurker")
+          .expect(405)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Method not allowed");
+          });
+      });
+      return Promise.all(methodPromises);
+    });
     describe("GET", () => {
       it("responds with a status of 200 and user at parametric endpoint", () => {
         return request
@@ -54,6 +76,17 @@ describe("/api", () => {
     });
   });
   describe("/articles", () => {
+    it("returns 405 for invalid methods", () => {
+      const invalidMethods = ["put", "post", "delete"];
+      const methodPromises = invalidMethods.map(method => {
+        return request[method]("/api/articles/1")
+          .expect(405)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Method not allowed");
+          });
+      });
+      return Promise.all(methodPromises);
+    });
     describe("GET", () => {
       it("responds with a status of 200 & returns article at parametric endpoint", () => {
         return request
@@ -137,8 +170,19 @@ describe("/api", () => {
       });
     });
     describe("/comments", () => {
+      it("returns 405 for invalid methods", () => {
+        const invalidMethods = ["patch", "put", "delete"];
+        const methodPromises = invalidMethods.map(method => {
+          return request[method]("/api/topics")
+            .expect(405)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql("Method not allowed");
+            });
+        });
+        return Promise.all(methodPromises);
+      });
       describe("POST", () => {
-        it("Posts a comment with a status of 200", () => {
+        it("Posts a comment to a specified article with a status of 200", () => {
           return request
             .post("/api/articles/1/comments")
             .send({ username: "lurker", body: "I love to comment" })
@@ -166,6 +210,16 @@ describe("/api", () => {
             .expect(422)
             .then(({ body: { msg } }) => {
               expect(msg).to.eql("Foreign Key Does Not Exist");
+            });
+        });
+      });
+      describe("GET", () => {
+        it("gets comments for specified article with a status of 200", () => {
+          return request
+            .get("/api/articles/1/comments")
+            .expect(200)
+            .then(({ body: { comments } }) => {
+              expect(body.length).to.equal(13);
             });
         });
       });
