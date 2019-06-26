@@ -81,7 +81,7 @@ describe("/api", () => {
           });
       });
     });
-    describe("PATCH", () => {
+    describe.only("PATCH", () => {
       it("responds with a status of 200 & updates votes on specified article", () => {
         return request
           .patch("/api/articles/1")
@@ -91,6 +91,42 @@ describe("/api", () => {
             expect(changedArticle["votes"]).to.eql(104);
           });
       });
+      it("returns status 400 for invalid inc_vote value", () => {
+        return request
+          .patch("/api/articles/1")
+          .send({ inc_votes: "hey" })
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Bad Request");
+          });
+      });
+      it("returns status 400 for invalid body", () => {
+        return request
+          .patch("/api/articles/1")
+          .send({ hey: "hi" })
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Bad Request");
+          });
+      });
+      it("returns status 422 for article that does not exist", () => {
+        return request
+          .patch("/api/articles/600")
+          .send({ inc_votes: 2 })
+          .expect(422)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Article ID does not exist");
+          });
+      });
+      // it("returns status 422 for invalid article", () => {
+      //   return request
+      //     .patch("/api/articles/hey")
+      //     .send({ inc_votes: 2 })
+      //     .expect(422)
+      //     .then(({ body: { msg } }) => {
+      //       expect(msg).to.eql("Invalid Article ID");
+      //     });
+      // });
     });
   });
 });
