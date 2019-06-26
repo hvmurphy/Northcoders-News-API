@@ -25,12 +25,6 @@ function fetchArticle({ article_id }) {
 }
 
 function updateArticleVotes(article_id, votesToAdd) {
-  // if (isNan(article_id)) {
-  //   return Promise.reject({
-  //     status: 422,
-  //     msg: "Invalid Article ID"
-  //   });
-  // } /// error handing for invalid article -to fix
   return connection("articles")
     .where(article_id)
     .returning("*")
@@ -41,18 +35,11 @@ function updateArticleVotes(article_id, votesToAdd) {
           msg: "Article ID does not exist"
         });
       }
-      if (isNaN(votesToAdd["inc_votes"])) {
-        return Promise.reject({
-          status: 400,
-          msg: "Bad Request"
-        });
-      } else {
-        const voteTotal = votesToAdd["inc_votes"] + article[0].votes;
-        return connection("articles")
-          .where(article_id)
-          .update({ votes: voteTotal })
-          .returning("*");
-      }
+      const voteTotal = votesToAdd["inc_votes"] + article[0].votes;
+      return connection("articles")
+        .where(article_id)
+        .update({ votes: voteTotal })
+        .returning("*");
     })
     .then(updatedArticle => updatedArticle[0]);
 }

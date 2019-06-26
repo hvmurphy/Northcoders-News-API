@@ -80,7 +80,14 @@ describe("/api", () => {
             expect(msg).to.eql("User Not Found");
           });
       });
-      // error handling needed for invalid article_id
+      it("responds with a status 422 with an invalid article_id ", () => {
+        return request
+          .get("/api/articles/dogs")
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Bad Request");
+          });
+      });
     });
     describe("PATCH", () => {
       it("responds with a status of 200 & updates votes on specified article", () => {
@@ -92,7 +99,7 @@ describe("/api", () => {
             expect(changedArticle["votes"]).to.eql(104);
           });
       });
-      it("returns status 400 for invalid inc_vote value", () => {
+      it("returns status 422 for invalid inc_vote value", () => {
         return request
           .patch("/api/articles/1")
           .send({ inc_votes: "hey" })
@@ -119,17 +126,17 @@ describe("/api", () => {
             expect(msg).to.eql("Article ID does not exist");
           });
       });
-      // it("returns status 422 for invalid article", () => {
-      //   return request
-      //     .patch("/api/articles/hey")
-      //     .send({ inc_votes: 2 })
-      //     .expect(422)
-      //     .then(({ body: { msg } }) => {
-      //       expect(msg).to.eql("Invalid Article ID");
-      //     });
-      // }); /// need to fix
+      it("returns status 400 for invalid article", () => {
+        return request
+          .patch("/api/articles/hey")
+          .send({ inc_votes: 2 })
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Bad Request");
+          });
+      });
     });
-    describe.only("/comments", () => {
+    describe("/comments", () => {
       describe("POST", () => {
         it("Posts a comment with a status of 200", () => {
           return request
@@ -137,9 +144,28 @@ describe("/api", () => {
             .send({ username: "lurker", body: "I love to comment" })
             .expect(200)
             .then(({ body: { newComment } }) => {
+              expect(newComment["comment_id"]).to.eql(19);
               expect(newComment["author"]).to.eql("lurker");
               expect(newComment["body"]).to.eql("I love to comment");
               expect(newComment["article_id"]).to.eql(1);
+            });
+        });
+        it("returns status 400 for missing required keys", () => {
+          return request
+            .post("/api/articles/1/comments")
+            .send({ username: "lurker" })
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql("Bad Request");
+            });
+        });
+        it("returns status 422 for invalid username", () => {
+          return request
+            .post("/api/articles/1/comments")
+            .send({ username: "JR", body: "I love to comment" })
+            .expect(422)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql("Foreign Key Does Not Exist");
             });
         });
       });
