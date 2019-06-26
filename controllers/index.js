@@ -1,8 +1,11 @@
+//if time seperate into seperate controller files
+
 const {
   fetchTopics,
   fetchUser,
   fetchArticle,
-  updateArticleVotes
+  updateArticleVotes,
+  addComment
 } = require("../models");
 
 function getTopics(req, res, next) {
@@ -48,4 +51,12 @@ function patchArticle(req, res, next) {
     .catch(next);
 }
 
-module.exports = { getTopics, getUser, getArticle, patchArticle };
+function postComment(req, res, next) {
+  addComment(req.params, req.body)
+    .then(newComment => {
+      res.status(200).send({ newComment });
+    })
+    .catch(next);
+}
+
+module.exports = { getTopics, getUser, getArticle, patchArticle, postComment };

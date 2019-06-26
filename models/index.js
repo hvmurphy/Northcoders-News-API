@@ -1,3 +1,5 @@
+///if time seperate into seperate model files
+
 const connection = require("../db/connection");
 
 function fetchTopics() {
@@ -28,7 +30,7 @@ function updateArticleVotes(article_id, votesToAdd) {
   //     status: 422,
   //     msg: "Invalid Article ID"
   //   });
-  // }
+  // } /// error handing for invalid article -to fix
   return connection("articles")
     .where(article_id)
     .returning("*")
@@ -55,4 +57,23 @@ function updateArticleVotes(article_id, votesToAdd) {
     .then(updatedArticle => updatedArticle[0]);
 }
 
-module.exports = { fetchTopics, fetchUser, fetchArticle, updateArticleVotes };
+function addComment({ article_id }, comment) {
+  const newComment = {
+    author: comment.username,
+    article_id: article_id,
+    body: comment.body
+  };
+  return connection
+    .insert(newComment)
+    .into("comments")
+    .returning("*")
+    .then(comments => comments[0]);
+}
+
+module.exports = {
+  fetchTopics,
+  fetchUser,
+  fetchArticle,
+  updateArticleVotes,
+  addComment
+};

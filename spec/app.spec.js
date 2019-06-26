@@ -12,7 +12,7 @@ describe("/api", () => {
   after(() => {
     connection.destroy();
   });
-  it("returns 404 when provide invalid path", () => {
+  it("returns 404 when provided invalid path", () => {
     return request
       .get("/api/dogs")
       .expect(404)
@@ -22,7 +22,7 @@ describe("/api", () => {
   });
   describe("/topics", () => {
     describe("GET", () => {
-      it("responds with a status of 200 and include relevant keys ", () => {
+      it("responds with a status of 200 and includes relevant keys ", () => {
         return request
           .get("/api/topics")
           .expect(200)
@@ -34,7 +34,7 @@ describe("/api", () => {
   });
   describe("/users", () => {
     describe("GET", () => {
-      it("responds with a status of 200 and user at parmetric endpoint", () => {
+      it("responds with a status of 200 and user at parametric endpoint", () => {
         return request
           .get("/api/users/lurker")
           .expect(200)
@@ -43,7 +43,7 @@ describe("/api", () => {
             expect(user.length).to.equal(1);
           });
       });
-      it("responds with a status 404 with a username that does not exist", () => {
+      it("responds with a status 404 when  username does not exist", () => {
         return request
           .get("/api/users/9")
           .expect(404)
@@ -80,8 +80,9 @@ describe("/api", () => {
             expect(msg).to.eql("User Not Found");
           });
       });
+      // error handling needed for invalid article_id
     });
-    describe.only("PATCH", () => {
+    describe("PATCH", () => {
       it("responds with a status of 200 & updates votes on specified article", () => {
         return request
           .patch("/api/articles/1")
@@ -126,7 +127,22 @@ describe("/api", () => {
       //     .then(({ body: { msg } }) => {
       //       expect(msg).to.eql("Invalid Article ID");
       //     });
-      // });
+      // }); /// need to fix
+    });
+    describe.only("/comments", () => {
+      describe("POST", () => {
+        it("Posts a comment with a status of 200", () => {
+          return request
+            .post("/api/articles/1/comments")
+            .send({ username: "lurker", body: "I love to comment" })
+            .expect(200)
+            .then(({ body: { newComment } }) => {
+              expect(newComment["author"]).to.eql("lurker");
+              expect(newComment["body"]).to.eql("I love to comment");
+              expect(newComment["article_id"]).to.eql(1);
+            });
+        });
+      });
     });
   });
 });
