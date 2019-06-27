@@ -213,13 +213,13 @@ describe("/api", () => {
             });
         });
       });
-      describe("GET", () => {
+      describe.only("GET", () => {
         it("gets comments for specified article with a status of 200", () => {
           return request
             .get("/api/articles/1/comments")
             .expect(200)
             .then(({ body: { comments } }) => {
-              expect(body.length).to.equal(13);
+              expect(comments.length).to.equal(13);
             });
         });
       });
