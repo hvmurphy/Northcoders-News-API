@@ -31,7 +31,7 @@ function getUser(req, res, next) {
     .catch(next);
 }
 function getArticle(req, res, next) {
-  fetchArticle(req.params)
+  fetchArticle(req.params, req.query)
     .then(article => {
       if (article.length === 0) {
         return Promise.reject({

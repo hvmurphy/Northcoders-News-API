@@ -9,6 +9,12 @@ const {
 const { handles405Errors } = require("../errors");
 
 articlesRouter
+  .route("/")
+  .get(getArticle)
+  .patch(patchArticle)
+  .all(handles405Errors);
+
+articlesRouter
   .route("/:article_id")
   .get(getArticle)
   .patch(patchArticle)

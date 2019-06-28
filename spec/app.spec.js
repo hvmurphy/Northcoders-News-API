@@ -89,7 +89,47 @@ describe("/api", () => {
       });
       return Promise.all(methodPromises);
     });
-    describe("GET", () => {
+    describe.only("GET", () => {
+      it("responds with a status of 200 & returns all articles if no article ID provided", () => {
+        return request
+          .get("/api/articles/")
+          .expect(200)
+          .then(({ body: { article } }) => {
+            expect(article[0]).to.contain.keys(
+              "author",
+              "title",
+              "article_id",
+              "topic",
+              "created_at",
+              "votes"
+            );
+            expect(article.length).to.equal(12);
+          });
+      });
+      it("responds with a status of 200 & articles are sorted by a default of created_at descending when no article ID provided ", () => {
+        return request
+          .get("/api/articles")
+          .expect(200)
+          .then(({ body: { article } }) => {
+            expect(article).to.be.descendingBy("created_at");
+          });
+      });
+      it("articles can be sorted by other columns when passed a valid column as a query", () => {
+        return request
+          .get("/api/articles?sort_by=author")
+          .expect(200)
+          .then(({ body: { article } }) => {
+            expect(article).to.be.descendingBy("author");
+          });
+      });
+      it("articles can be sorted by other asc when passed order as a query", () => {
+        return request
+          .get("/api/articles?order=asc")
+          .expect(200)
+          .then(({ body: { article } }) => {
+            expect(article).to.be.sortedBy("created_at");
+          });
+      });
       it("responds with a status of 200 & returns article at parametric endpoint", () => {
         return request
           .get("/api/articles/1")
@@ -215,7 +255,7 @@ describe("/api", () => {
             });
         });
       });
-      describe.only("GET", () => {
+      describe("GET", () => {
         it("gets comments for specified article with a status of 200", () => {
           return request
             .get("/api/articles/1/comments")

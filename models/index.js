@@ -12,13 +12,14 @@ function fetchUser(username) {
     .where(username);
 }
 
-function fetchArticle({ article_id }) {
+function fetchArticle({ article_id }, { sort_by, order }) {
   return connection
     .select("articles.*")
     .count({ comment_count: "comments.comment_id" })
     .from("articles")
     .leftJoin("comments", "articles.article_id", "comments.article_id")
     .groupBy("articles.article_id")
+    .orderBy(sort_by || "articles.created_at", order || "desc")
     .modify(query => {
       if (article_id) query.where({ "articles.article_id": article_id });
     });
