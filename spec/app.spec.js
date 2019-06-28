@@ -224,20 +224,28 @@ describe("/api", () => {
               expect(comments.length).to.equal(13);
             });
         });
-        it("sorts by created_at as the default ", () => {
+        it("sorts by created_at descending as the default ", () => {
           return request
             .get("/api/articles/1/comments")
             .expect(200)
             .then(({ body: { comments } }) => {
-              expect(comments).to.be.sortedBy("created_at");
+              expect(comments).to.be.descendingBy("created_at");
             });
         });
         it("comments can be sorted by other columns when passed a valid column as a query", () => {
           return request
-            .get("/api/articles/1/comments/?sort_by=author")
+            .get("/api/articles/1/comments?sort_by=author")
             .expect(200)
             .then(({ body: { comments } }) => {
-              expect(comments).to.be.sortedBy("author");
+              expect(comments).to.be.descendingBy("author");
+            });
+        });
+        it("comments can be ordered by asc when passed a valid column as a query", () => {
+          return request
+            .get("/api/articles/1/comments/?order=asc")
+            .expect(200)
+            .then(({ body: { comments } }) => {
+              expect(comments).to.be.sortedBy("created_at");
             });
         });
       });
