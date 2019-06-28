@@ -22,6 +22,17 @@ describe("/api", () => {
         expect(msg).to.eql("Page Not Found");
       });
   });
+  it("returns 405 for invalid methods", () => {
+    const invalidMethods = ["put", "patch", "delete", "post", "get"];
+    const methodPromises = invalidMethods.map(method => {
+      return request[method]("/api")
+        .expect(405)
+        .then(({ body: { msg } }) => {
+          expect(msg).to.eql("Method not allowed");
+        });
+    });
+    return Promise.all(methodPromises);
+  });
   describe("/topics", () => {
     it("returns 405 for invalid methods", () => {
       const invalidMethods = ["patch", "put", "post", "delete"];
@@ -401,7 +412,7 @@ describe("/api", () => {
           });
       });
     });
-    describe.only("DELETE", () => {
+    describe("DELETE", () => {
       it("responds with status 404 and no content", () => {
         return request.delete("/api/comments/1").expect(204);
       });
