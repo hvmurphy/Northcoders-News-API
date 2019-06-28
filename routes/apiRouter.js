@@ -5,11 +5,11 @@ const { usersRouter } = require("./usersRouter");
 const { articlesRouter } = require("./articlesRouter");
 const { commentsRouter } = require("./commentsRouter");
 const { handles405Errors } = require("../errors");
-const { getJSON } = require("../controllers");
+// const { getJSON } = require("../controllers");
 
 apiRouter
   .route("/")
-  .get(getJSON)
+  // .get(getJSON)
   .all(handles405Errors);
 
 apiRouter.use("/topics", topicsRouter);

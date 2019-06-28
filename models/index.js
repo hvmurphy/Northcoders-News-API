@@ -94,9 +94,9 @@ function removeComment(comment_id) {
     .del();
 }
 
-function fetchJSON() {
-  return "hi";
-}
+// function fetchJSON() {
+//   return "hi";
+// }
 
 module.exports = {
   fetchTopics,
@@ -106,6 +106,6 @@ module.exports = {
   addComment,
   fetchComments,
   updateComment,
-  removeComment,
-  fetchJSON
+  removeComment
+  // fetchJSON
 };

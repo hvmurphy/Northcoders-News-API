@@ -8,8 +8,8 @@ const {
   addComment,
   fetchComments,
   updateComment,
-  removeComment,
-  fetchJSON
+  removeComment
+  // fetchJSON
 } = require("../models");
 
 function getTopics(req, res, next) {
@@ -87,12 +87,12 @@ function deleteComment(req, res, next) {
     .catch(next);
 }
 
-function getJSON(req, res, next) {
-  fetchJSON().then(json => {
-    console.log(json);
-    res.status(200).send();
-  });
-}
+// function getJSON(req, res, next) {
+//   fetchJSON().then(json => {
+//     console.log(json);
+//     res.status(200).send();
+//   });
+// }
 
 module.exports = {
   getTopics,
@@ -102,6 +102,6 @@ module.exports = {
   postComment,
   getComments,
   patchComment,
-  deleteComment,
-  getJSON
+  deleteComment
+  // getJSON
 };
