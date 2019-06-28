@@ -57,12 +57,13 @@ function addComment({ article_id }, comment) {
     .then(comments => comments[0]);
 }
 
-function fetchComments(article_id, sortBy, order) {
+function fetchComments(article_id, { sortBy, order }) {
+  console.log(sortBy);
   return connection
     .select("comment_id", "votes", "created_at", "author", "body")
     .from("comments")
-    .where(article_id);
-  // .to do sort by/order
+    .where(article_id)
+    .orderBy("created_at");
 }
 
 module.exports = {

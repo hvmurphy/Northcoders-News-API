@@ -61,9 +61,8 @@ function postComment(req, res, next) {
 }
 
 function getComments(req, res, next) {
-  fetchComments(req.params, sortBy, Order)
+  fetchComments(req.params, req.query)
     .then(comments => {
-      console.log(comments);
       res.status(200).send({ comments });
     })
     .catch(next); //test needs finishing - sortBy/order/errorHandling

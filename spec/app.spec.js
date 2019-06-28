@@ -4,6 +4,8 @@ const { expect } = chai;
 const app = require("../app");
 const request = require("supertest")(app);
 const connection = require("../db/connection");
+const chaiSorted = require("chai-sorted");
+chai.use(chaiSorted);
 
 describe("/api", () => {
   beforeEach(() => {
@@ -220,6 +222,14 @@ describe("/api", () => {
             .expect(200)
             .then(({ body: { comments } }) => {
               expect(comments.length).to.equal(13);
+            });
+        });
+        it("sorts by created_at as the default ", () => {
+          return request
+            .get("/api/articles/1/comments")
+            .expect(200)
+            .then(({ body: { comments } }) => {
+              expect(comments).to.be.sortedBy("created_at");
             });
         });
       });
