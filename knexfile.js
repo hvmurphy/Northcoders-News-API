@@ -2,7 +2,7 @@ const { DB_URL } = process.env;
 const ENV = process.env.NODE_ENV || "development";
 // const { username, password } = require("./config");
 const { username, password } =
-  process.env.NODE_ENV === "production" ? process.env : require("../config");
+  process.env.NODE_ENV === "production" ? process.env : require("./config");
 
 const baseConfig = {
   client: "pg",
