@@ -12,7 +12,7 @@ function fetchUser(username) {
     .where(username);
 }
 
-function fetchArticle({ article_id }, { sort_by, order }) {
+function fetchArticle({ article_id }, { sort_by, order, author, topic }) {
   return connection
     .select("articles.*")
     .count({ comment_count: "comments.comment_id" })
@@ -22,6 +22,8 @@ function fetchArticle({ article_id }, { sort_by, order }) {
     .orderBy(sort_by || "articles.created_at", order || "desc")
     .modify(query => {
       if (article_id) query.where({ "articles.article_id": article_id });
+      if (author) query.where({ "articles.author": author });
+      if (topic) query.where({ "articles.topic": topic });
     });
 }
 

@@ -130,6 +130,24 @@ describe("/api", () => {
             expect(article).to.be.sortedBy("created_at");
           });
       });
+      it("filters articles by author specified in query", () => {
+        return request
+          .get("/api/articles?author=butter_bridge")
+          .expect(200)
+          .then(({ body: { article } }) => {
+            expect(article.length).to.equal(3);
+            expect(article[0].author).to.eql("butter_bridge");
+          });
+      });
+      it("filters articles by topic specified in query", () => {
+        return request
+          .get("/api/articles?topic=cats")
+          .expect(200)
+          .then(({ body: { article } }) => {
+            expect(article.length).to.equal(1);
+            expect(article[0].topic).to.eql("cats");
+          });
+      });
       it("responds with a status of 200 & returns article at parametric endpoint", () => {
         return request
           .get("/api/articles/1")
