@@ -341,4 +341,54 @@ describe("/api", () => {
       });
     });
   });
+  describe.only("/comments", () => {
+    describe("PATCH", () => {
+      it("responds with a status of 200 & updates votes on specified comment", () => {
+        return request
+          .patch("/api/comments/1")
+          .send({ inc_votes: 4 })
+          .expect(200)
+          .then(({ body: { changedComment } }) => {
+            expect(changedComment["votes"]).to.eql(20);
+          });
+      });
+
+      it("returns status 422 for invalid inc_vote value", () => {
+        return request
+          .patch("/api/comments/1")
+          .send({ inc_votes: "hey" })
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Bad Request");
+          });
+      });
+      it("returns status 400 for invalid body", () => {
+        return request
+          .patch("/api/comments/1")
+          .send({ hey: "hi" })
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Bad Request");
+          });
+      });
+      it("returns status 422 for comment that does not exist", () => {
+        return request
+          .patch("/api/comments/600")
+          .send({ inc_votes: 2 })
+          .expect(422)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Comment ID does not exist");
+          });
+      });
+      it("returns status 400 for invalid comment", () => {
+        return request
+          .patch("/api/comments/hey")
+          .send({ inc_votes: 2 })
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Bad Request");
+          });
+      });
+    });
+  });
 });

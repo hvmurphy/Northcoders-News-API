@@ -6,7 +6,8 @@ const {
   fetchArticle,
   updateArticleVotes,
   addComment,
-  fetchComments
+  fetchComments,
+  updateComment
 } = require("../models");
 
 function getTopics(req, res, next) {
@@ -68,11 +69,20 @@ function getComments(req, res, next) {
     .catch(next);
 }
 
+function patchComment(req, res, next) {
+  updateComment(req.params, req.body)
+    .then(changedComment => {
+      res.status(200).send({ changedComment });
+    })
+    .catch(next);
+}
+
 module.exports = {
   getTopics,
   getUser,
   getArticle,
   patchArticle,
   postComment,
-  getComments
+  getComments,
+  patchComment
 };

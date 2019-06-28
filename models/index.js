@@ -31,14 +31,14 @@ function updateArticleVotes(article_id, votesToAdd) {
   return connection("articles")
     .where(article_id)
     .returning("*")
-    .then(article => {
-      if (article.length === 0) {
+    .then(comment => {
+      if (comment.length === 0) {
         return Promise.reject({
           status: 422,
           msg: "Article ID does not exist"
         });
       }
-      const voteTotal = votesToAdd["inc_votes"] + article[0].votes;
+      const voteTotal = votesToAdd["inc_votes"] + comment[0].votes;
       return connection("articles")
         .where(article_id)
         .update({ votes: voteTotal })
@@ -68,11 +68,32 @@ function fetchComments(article_id, { sort_by, order }) {
     .orderBy(sort_by || "created_at", order || "desc");
 }
 
+function updateComment(comment_id, votesToAdd) {
+  return connection("comments")
+    .where(comment_id)
+    .returning("*")
+    .then(comment => {
+      if (comment.length === 0) {
+        return Promise.reject({
+          status: 422,
+          msg: "Comment ID does not exist"
+        });
+      }
+      const voteTotal = votesToAdd["inc_votes"] + comment[0].votes;
+      return connection("comments")
+        .where(comment_id)
+        .update({ votes: voteTotal })
+        .returning("*");
+    })
+    .then(updatedComment => updatedComment[0]);
+}
+
 module.exports = {
   fetchTopics,
   fetchUser,
   fetchArticle,
   updateArticleVotes,
   addComment,
-  fetchComments
+  fetchComments,
+  updateComment
 };
