@@ -341,7 +341,18 @@ describe("/api", () => {
       });
     });
   });
-  describe.only("/comments", () => {
+  describe("/comments", () => {
+    it("returns 405 for invalid methods", () => {
+      const invalidMethods = ["put", "post", "get"];
+      const methodPromises = invalidMethods.map(method => {
+        return request[method]("/api/comments/1")
+          .expect(405)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Method not allowed");
+          });
+      });
+      return Promise.all(methodPromises);
+    });
     describe("PATCH", () => {
       it("responds with a status of 200 & updates votes on specified comment", () => {
         return request
@@ -388,6 +399,11 @@ describe("/api", () => {
           .then(({ body: { msg } }) => {
             expect(msg).to.eql("Bad Request");
           });
+      });
+    });
+    describe.only("DELETE", () => {
+      it("responds with status 404 and no content", () => {
+        return request.delete("/api/comments/1").expect(204);
       });
     });
   });

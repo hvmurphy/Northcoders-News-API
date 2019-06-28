@@ -88,6 +88,12 @@ function updateComment(comment_id, votesToAdd) {
     .then(updatedComment => updatedComment[0]);
 }
 
+function removeComment(comment_id) {
+  return connection("comments")
+    .where(comment_id)
+    .del();
+}
+
 module.exports = {
   fetchTopics,
   fetchUser,
@@ -95,5 +101,6 @@ module.exports = {
   updateArticleVotes,
   addComment,
   fetchComments,
-  updateComment
+  updateComment,
+  removeComment
 };

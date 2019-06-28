@@ -7,7 +7,8 @@ const {
   updateArticleVotes,
   addComment,
   fetchComments,
-  updateComment
+  updateComment,
+  removeComment
 } = require("../models");
 
 function getTopics(req, res, next) {
@@ -77,6 +78,14 @@ function patchComment(req, res, next) {
     .catch(next);
 }
 
+function deleteComment(req, res, next) {
+  removeComment(req.params)
+    .then(delCommentCount => {
+      res.status(204).send();
+    })
+    .catch(next);
+}
+
 module.exports = {
   getTopics,
   getUser,
@@ -84,5 +93,6 @@ module.exports = {
   patchArticle,
   postComment,
   getComments,
-  patchComment
+  patchComment,
+  deleteComment
 };
