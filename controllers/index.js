@@ -36,7 +36,7 @@ function getArticle(req, res, next) {
       if (article.length === 0) {
         return Promise.reject({
           status: 404,
-          msg: "Article Not Found"
+          msg: "No Articles Found"
         });
       }
       res.status(200).send({ article });

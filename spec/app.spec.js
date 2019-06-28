@@ -89,7 +89,7 @@ describe("/api", () => {
       });
       return Promise.all(methodPromises);
     });
-    describe.only("GET", () => {
+    describe("GET", () => {
       it("responds with a status of 200 & returns all articles if no article ID provided", () => {
         return request
           .get("/api/articles/")
@@ -148,6 +148,22 @@ describe("/api", () => {
             expect(article[0].topic).to.eql("cats");
           });
       });
+      it("returns status of 404 if topic/author does not exist", () => {
+        return request
+          .get("/api/articles?topic=dogs")
+          .expect(404)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("No Articles Found");
+          });
+      });
+      it("returns status of 400 with invalid sort by query", () => {
+        return request
+          .get("/api/articles?sort_by=dogs")
+          .expect(400)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.eql("Bad Request");
+          });
+      });
       it("responds with a status of 200 & returns article at parametric endpoint", () => {
         return request
           .get("/api/articles/1")
@@ -170,7 +186,7 @@ describe("/api", () => {
           .get("/api/articles/9999")
           .expect(404)
           .then(({ body: { msg } }) => {
-            expect(msg).to.eql("Article Not Found");
+            expect(msg).to.eql("No Articles Found");
           });
       });
       it("responds with a status 422 with an invalid article_id ", () => {
