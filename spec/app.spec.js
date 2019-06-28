@@ -14,6 +14,12 @@ describe("/api", () => {
   after(() => {
     connection.destroy();
   });
+  it.only("returns a status of 200 and GETs JSON file", () => {
+    return request.get("/api").expect(200);
+    // .then(({ body: { msg } }) => {
+    //   expect(msg).to.eql("Page Not Found");
+    // });
+  });
   it("returns 404 when provided invalid path", () => {
     return request
       .get("/api/dogs")
@@ -23,7 +29,7 @@ describe("/api", () => {
       });
   });
   it("returns 405 for invalid methods", () => {
-    const invalidMethods = ["put", "patch", "delete", "post", "get"];
+    const invalidMethods = ["put", "patch", "delete", "post"];
     const methodPromises = invalidMethods.map(method => {
       return request[method]("/api")
         .expect(405)

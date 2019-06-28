@@ -5,8 +5,13 @@ const { usersRouter } = require("./usersRouter");
 const { articlesRouter } = require("./articlesRouter");
 const { commentsRouter } = require("./commentsRouter");
 const { handles405Errors } = require("../errors");
+const { getJSON } = require("../controllers");
 
-apiRouter.all("/", handles405Errors);
+apiRouter
+  .route("/")
+  .get(getJSON)
+  .all(handles405Errors);
+
 apiRouter.use("/topics", topicsRouter);
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/articles", articlesRouter);

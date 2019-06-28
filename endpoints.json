@@ -10,7 +10,7 @@
     }
   },
   "GET /api/articles": {
-    "description": "serves an array of all topics",
+    "description": "serves an array of all articles",
     "queries": ["author", "topic", "sort_by", "order"],
     "exampleResponse": {
       "articles": [
@@ -20,6 +20,72 @@
           "author": "weegembump",
           "body": "Text from the article..",
           "created_at": 1527695953341
+        }
+      ]
+    }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves up the specified article",
+    "queries": [],
+    "exampleResponse": {
+      "articles": [
+        {
+          "article_id": 1,
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "created_at": 1527695953341,
+          "votes": 4,
+          "comment_count": 5
+        }
+      ]
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "updates the votes on specified article and serves amended article",
+    "queries": [],
+    "exampleRequestBody": { "inc_votes": 1 },
+    "exampleResponse": {
+      "articles": [
+        {
+          "article_id": 1,
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "created_at": 1527695953341,
+          "votes": 4,
+          "comment_count": 5
+        }
+      ]
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "posts a comment on the specified article and serves posted comment",
+    "queries": [],
+    "exampleRequestBody": {
+      "username": "lurker",
+      "body": "this is a comment ...."
+    },
+    "exampleResponse": {
+      "articles": [
+        {
+          "username": "lurker",
+          "body": "this is a comment ...."
+        }
+      ]
+    }
+  },
+  "GET /api/users/:username": {
+    "description": "serves up the specified user's data",
+    "queries": [],
+    "exampleResponse": {
+      "topics": [
+        {
+          "username": "tickle122",
+          "name": "Tom Tickle",
+          "avatar_url": "https: //www.spiritsurfers.net/monastery/wp-content/uploads/_41500270_mrtickle.jpg"
         }
       ]
     }
