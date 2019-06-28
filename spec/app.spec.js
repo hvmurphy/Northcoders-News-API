@@ -232,6 +232,14 @@ describe("/api", () => {
               expect(comments).to.be.sortedBy("created_at");
             });
         });
+        it("comments can be sorted by other columns when passed a valid column as a query", () => {
+          return request
+            .get("/api/articles/1/comments/?sort_by=author")
+            .expect(200)
+            .then(({ body: { comments } }) => {
+              expect(comments).to.be.sortedBy("author");
+            });
+        });
       });
     });
   });
