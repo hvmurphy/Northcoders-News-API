@@ -112,7 +112,7 @@ describe("/api", () => {
           .get("/api/articles/9999")
           .expect(404)
           .then(({ body: { msg } }) => {
-            expect(msg).to.eql("User Not Found");
+            expect(msg).to.eql("Article Not Found");
           });
       });
       it("responds with a status 422 with an invalid article_id ", () => {
@@ -242,10 +242,26 @@ describe("/api", () => {
         });
         it("comments can be ordered by asc when passed a valid column as a query", () => {
           return request
-            .get("/api/articles/1/comments/?order=asc")
+            .get("/api/articles/1/comments?order=asc")
             .expect(200)
             .then(({ body: { comments } }) => {
               expect(comments).to.be.sortedBy("created_at");
+            });
+        });
+        it("returns status of 400 with invalid query", () => {
+          return request
+            .get("/api/articles/1/comments?sort_by=dogs")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql("Bad Request");
+            });
+        });
+        it("returns status 400 for invalid article", () => {
+          return request
+            .get("/api/articles/hey/comments?sort_by=author")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql("Bad Request");
             });
         });
       });

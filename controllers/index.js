@@ -36,7 +36,7 @@ function getArticle(req, res, next) {
       if (article.length === 0) {
         return Promise.reject({
           status: 404,
-          msg: "User Not Found"
+          msg: "Article Not Found"
         });
       }
       res.status(200).send({ article });
@@ -65,7 +65,7 @@ function getComments(req, res, next) {
     .then(comments => {
       res.status(200).send({ comments });
     })
-    .catch(next); //test needs finishing - sortBy/order/errorHandling
+    .catch(next);
 }
 
 module.exports = {
