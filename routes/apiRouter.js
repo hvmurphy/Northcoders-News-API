@@ -5,7 +5,7 @@ const { usersRouter } = require("./usersRouter");
 const { articlesRouter } = require("./articlesRouter");
 const { commentsRouter } = require("./commentsRouter");
 const { handles405Errors } = require("../errors");
-// const { getJSON } = require("../controllers");
+// const { getJSON } = require("../controllers/api");
 
 apiRouter
   .route("/")

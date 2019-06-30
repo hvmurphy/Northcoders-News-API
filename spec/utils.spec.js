@@ -1,5 +1,10 @@
 const { expect } = require("chai");
-const { formatDate, makeRefObj, formatComments } = require("../db/utils/utils");
+const {
+  formatDate,
+  makeRefObj,
+  formatComments,
+  createComment
+} = require("../db/utils/utils");
 
 describe("formatDate", () => {
   it("returns a new array", () => {
@@ -281,5 +286,18 @@ describe("formatComments", () => {
         created_at: new Date()
       }
     ]);
+  });
+});
+
+describe("createComment", () => {
+  it("returns an object when passed both articleId and comment", () => {
+    const testID = 1;
+    const testComment = { username: "lurker", body: "I love to comment" };
+    const outcome = {
+      author: "lurker",
+      article_id: 1,
+      body: "I love to comment"
+    };
+    expect(createComment(testID, testComment)).to.eql(outcome);
   });
 });

@@ -27,3 +27,11 @@ exports.formatComments = (comments, articleRef) => {
     return arr;
   }, []);
 };
+
+exports.createComment = (articleId, comment) => {
+  return {
+    author: comment.username,
+    article_id: articleId,
+    body: comment.body
+  };
+};

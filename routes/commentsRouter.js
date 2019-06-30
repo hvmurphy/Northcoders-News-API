@@ -1,6 +1,6 @@
 const express = require("express");
 const commentsRouter = express.Router();
-const { patchComment, deleteComment } = require("../controllers");
+const { patchComment, deleteComment } = require("../controllers/comments");
 const { handles405Errors } = require("../errors");
 
 commentsRouter

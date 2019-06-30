@@ -1,22 +1,22 @@
 const express = require("express");
 const articlesRouter = express.Router();
 const {
-  getArticle,
+  getArticleByID,
   patchArticle,
   postComment,
-  getComments
-} = require("../controllers");
+  getComments,
+  getArticles
+} = require("../controllers/articles");
 const { handles405Errors } = require("../errors");
 
 articlesRouter
   .route("/")
-  .get(getArticle)
-  .patch(patchArticle)
+  .get(getArticles)
   .all(handles405Errors);
 
 articlesRouter
   .route("/:article_id")
-  .get(getArticle)
+  .get(getArticleByID)
   .patch(patchArticle)
   .all(handles405Errors);
 
