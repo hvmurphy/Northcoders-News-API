@@ -1,9 +1,9 @@
-// const {fetchJSON
-// } = require("../models/api");
+const { fetchEndpoints } = require("../models/api");
 
-// exports.getJSON = (req, res, next) => {
-//   fetchJSON().then(json => {
-//     console.log(json);
-//     res.status(200).send();
-//   });
-// }
+exports.getEndpoints = (req, res, next) => {
+  fetchEndpoints()
+    .then(endpoints => {
+      res.status(200).send(endpoints);
+    })
+    .catch(next);
+};
