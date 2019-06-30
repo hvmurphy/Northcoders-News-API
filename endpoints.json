@@ -6,7 +6,24 @@
     "description": "serves an array of all topics",
     "queries": [],
     "exampleResponse": {
-      "topics": [{ "slug": "football", "description": "Footie!" }]
+      "topics": [
+        { "slug": "football", "description": "Footie!" },
+        {
+          "slug": "cooking",
+          "description": "Hey good looking, what you got cooking?"
+        }
+      ]
+    }
+  },
+  "GET /api/users/:username": {
+    "description": "serves up the specified user",
+    "queries": [],
+    "exampleResponse": {
+      "user": {
+        "username": "jessjelly",
+        "avatar_url": "https://s-media-cache-ak0.pinimg.com/564x/39/62/ec/3962eca164e60cf46f979c1f57d4078b.jpg",
+        "name": "Jess Jelly"
+      }
     }
   },
   "GET /api/articles": {
@@ -15,11 +32,20 @@
     "exampleResponse": {
       "articles": [
         {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
           "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
+          "title": "Seafood substitutions are increasing",
+          "article_id": 1,
+          "topic": "cooking",
+          "created_at": 1527695953341,
+          "votes": 4
+        },
+        {
+          "author": "jessjelly",
+          "title": "Running a Node App",
+          "article_id": 2,
+          "topic": "coding",
+          "created_at": 1471522072389,
+          "votes": 8
         }
       ]
     }
@@ -28,18 +54,16 @@
     "description": "serves up the specified article",
     "queries": [],
     "exampleResponse": {
-      "articles": [
-        {
-          "article_id": 1,
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341,
-          "votes": 4,
-          "comment_count": 5
-        }
-      ]
+      "article": {
+        "article_id": 1,
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "created_at": 1527695953341,
+        "votes": 4,
+        "comment_count": 5
+      }
     }
   },
   "PATCH /api/articles/:article_id": {
@@ -47,18 +71,16 @@
     "queries": [],
     "exampleRequestBody": { "inc_votes": 1 },
     "exampleResponse": {
-      "articles": [
-        {
-          "article_id": 1,
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341,
-          "votes": 4,
-          "comment_count": 5
-        }
-      ]
+      "article": {
+        "article_id": 1,
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "created_at": 1527695953341,
+        "votes": 4,
+        "comment_count": 5
+      }
     }
   },
   "POST /api/articles/:article_id/comments": {
@@ -69,25 +91,55 @@
       "body": "this is a comment ...."
     },
     "exampleResponse": {
-      "articles": [
+      "comment": {
+        "comment_id": 1,
+        "votes": 7,
+        "created_at": 1478813209256,
+        "author": "grumpy19",
+        "body": "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam."
+      }
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves up comments on the specified article",
+    "queries": ["sort_by", "order"],
+    "exampleRequestBody": {
+      "username": "lurker",
+      "body": "this is a comment ...."
+    },
+    "exampleResponse": {
+      "comments": [
         {
-          "username": "lurker",
-          "body": "this is a comment ...."
+          "comment_id": 1,
+          "votes": 7,
+          "created_at": 1478813209256,
+          "author": "grumpy19",
+          "body": "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam."
+        },
+        {
+          "comment_id": 2,
+          "votes": 3,
+          "created_at": 1504183900263,
+          "author": "grumpy19",
+          "body": "Qui sunt sit voluptas repellendus sed. Voluptatem et repellat fugiat. Rerum doloribus eveniet quidem vero aut sint officiis. Dolor facere et et architecto vero qui et perferendis dolorem. Magni quis ratione adipisci error assumenda ut. Id rerum eos facere sit nihil ipsam officia aspernatur odio."
         }
       ]
     }
   },
-  "GET /api/users/:username": {
-    "description": "serves up the specified user's data",
+  "PATCH /api/comments/:comment_id": {
+    "description": "updates the votes on specified comment and serves amended comment",
     "queries": [],
+    "exampleRequestBody": {
+      "inc_votes": 1
+    },
     "exampleResponse": {
-      "topics": [
-        {
-          "username": "tickle122",
-          "name": "Tom Tickle",
-          "avatar_url": "https: //www.spiritsurfers.net/monastery/wp-content/uploads/_41500270_mrtickle.jpg"
-        }
-      ]
+      "comment": {
+        "comment_id": 1,
+        "votes": 8,
+        "created_at": 1478813209256,
+        "author": "grumpy19",
+        "body": "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam."
+      }
     }
   }
 }
