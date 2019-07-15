@@ -14,7 +14,7 @@ describe("/api", () => {
   after(() => {
     connection.destroy();
   });
-  it.only("returns a status of 200 and GETs JSON file", () => {
+  it("returns a status of 200 and GETs JSON file", () => {
     return request
       .get("/api")
       .expect(200)
