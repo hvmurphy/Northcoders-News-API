@@ -6,7 +6,7 @@ const {
   createComment
 } = require("../db/utils/utils");
 
-describe("formatDate", () => {
+describe.only("formatDate", () => {
   it("returns a new array", () => {
     const testList = [
       {
@@ -19,6 +19,7 @@ describe("formatDate", () => {
       }
     ];
     const returnValue = formatDate(testList);
+
     expect(testList).to.not.equal(returnValue);
   });
   it("does not mutate the input array", () => {
@@ -68,6 +69,7 @@ describe("formatDate", () => {
         created_at: new Date()
       }
     ];
+    console.log(result);
     expect(formatDate(testList)).to.eql(result);
   });
   it("changes date for a multi object array", () => {

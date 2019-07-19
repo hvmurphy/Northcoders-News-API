@@ -7,7 +7,10 @@ exports.up = function(knex, Promise) {
       .notNullable();
     commentsTable.integer("article_id").references("articles.article_id");
     commentsTable.integer("votes").defaultTo(0);
-    commentsTable.timestamp("created_at").defaultTo(knex.fn.now());
+    commentsTable
+      .timestamp("created_at")
+      .notNullable()
+      .defaultTo(knex.fn.now());
     commentsTable.string("body", 1000).notNullable();
   });
 };
