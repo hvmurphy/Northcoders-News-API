@@ -9,8 +9,8 @@ exports.up = function(knex, Promise) {
     commentsTable.integer("votes").defaultTo(0);
     commentsTable
       .timestamp("created_at")
-      .notNullable()
-      .defaultTo(knex.fn.now());
+      .defaultTo(knex.fn.now())
+      .notNullable();
     commentsTable.string("body", 1000).notNullable();
   });
 };
