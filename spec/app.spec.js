@@ -79,23 +79,35 @@ describe("/api", () => {
       });
       return Promise.all(methodPromises);
     });
-    describe("GET", () => {
-      it("responds with a status of 200 and user at parametric endpoint", () => {
+    describe.only("GET", () => {
+      it("responds with a status of 200 and includes relevant keys ", () => {
         return request
-          .get("/api/users/lurker")
+          .get("/api/users")
           .expect(200)
-          .then(({ body: { user } }) => {
-            expect(user.username).to.eql("lurker");
-            expect(user).to.have.keys("username", "avatar_url", "name");
+          .then(({ body: { users } }) => {
+            expect(users[0]).to.contain.keys("username", "avatar_url", "name");
           });
       });
-      it("responds with a status 404 when username is valid but does not exist", () => {
-        return request
-          .get("/api/users/fakeusername")
-          .expect(404)
-          .then(({ body: { msg } }) => {
-            expect(msg).to.eql("User Not Found");
-          });
+    });
+    describe("/:username", () => {
+      describe("GET", () => {
+        it("responds with a status of 200 and user at parametric endpoint", () => {
+          return request
+            .get("/api/users/lurker")
+            .expect(200)
+            .then(({ body: { user } }) => {
+              expect(user.username).to.eql("lurker");
+              expect(user).to.have.keys("username", "avatar_url", "name");
+            });
+        });
+        it("responds with a status 404 when username is valid but does not exist", () => {
+          return request
+            .get("/api/users/fakeusername")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.eql("User Not Found");
+            });
+        });
       });
     });
   });
