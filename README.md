@@ -27,25 +27,57 @@ git clone https://github.com/hvmurphy/Northcoders-News-API.git
 $ cd Northcoders-News-API
 $ npm install
 ```
-- Set-up Database
+- If you are using linux you will need to provide your postgres username and password.  This can be done by inserting  your username and password into the knexfile.js as shown below **(Please ensure that the knexfile.js is added to the .gitignore if you wish to push to a public repository)**:
+
+```  const customConfig = {
+  development: {
+    connection: {
+      database: "nc_news",
+      username: myUsername,
+      password: myPassword
+    }
+  },
+  test: {
+    connection: {
+      database: "nc_news_test",
+      username: myUsername,
+      password: myPassword
+    }
+  },
+  production: {
+    connection: `${DB_URL}?ssl=true`,
+    username: myUsername,
+    password: myPassword
+  }
+};     
+```
+
+- Set-up the Database
 ```
 npm run setup:dbs
 ```
-- Seed
+- Seed the Database
 ```
 npm run seed
 ```
-
 - Start local server
 ```
 npm start
 ```
 
-
 ### Running the Tests
+Testing is conducted using Mocha, Chai, Supertest.
 
+To run the tests:
+```
+npm start
+```
 
 ### Deployment
+
+This API is hosted on Heroku, the deployed version of the site can be found [here](https://nc-news-hm.herokuapp.com/api/)
+
+If you wish to deploy 
 
 ### Built With
 - Node.js (in VS Code) - Javascript runtime environment
@@ -56,3 +88,5 @@ npm start
 
 ### Authors
 - Holly Murphy 
+
+**Thanks for visiting!**
