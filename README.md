@@ -7,7 +7,7 @@ Northcoders back-end project. API hosted on Heroku: https://nc-news-hm.herokuapp
 Front-end project can be found here: https://github.com/hvmurphy/NC-News
 
 ## Getting Started
-These instructions will get you a copy of the project up and running on your local machine.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 Below are a number of packages you will require in order to run this project:
