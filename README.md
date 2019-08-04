@@ -27,12 +27,32 @@ git clone https://github.com/hvmurphy/Northcoders-News-API.git
 $ cd Northcoders-News-API
 $ npm install
 ```
+- Set-up Database
+```
+npm run setup:dbs
+```
+- Seed
+```
+npm run seed
+```
+
+- Start local server
+```
+npm start
+```
+
 
 ### Running the Tests
+
 
 ### Deployment
 
 ### Built With
+- Node.js (in VS Code) - Javascript runtime environment
+- postgreSQL - Relational database
+- Knex.js - SQL query builder
+- Express - Web application framework
+- Heroku - Platform used to host the API
 
 ### Authors
-- Holly Murphy
+- Holly Murphy 
