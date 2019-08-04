@@ -77,7 +77,7 @@ npm start
 
 This API is hosted on Heroku, the deployed version of the site can be found [here](https://nc-news-hm.herokuapp.com/api/)
 
-If you wish to deploy 
+If you wish to deploy to your own site, please follow the instructions on the [Heroku site](https://devcenter.heroku.com/categories/deployment)
 
 ### Built With
 - Node.js (in VS Code) - Javascript runtime environment
